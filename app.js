@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const playModeBtn = document.getElementById('play-mode-btn');
     const resetBtn = document.getElementById('reset-btn');
     const closedTourCheck = document.getElementById('closed-tour');
+    const showHintsCheck = document.getElementById('show-hints');
     const statusText = document.getElementById('status');
     const boardContainer = document.getElementById('board');
 
@@ -39,6 +40,11 @@ document.addEventListener('DOMContentLoaded', () => {
     selectStartBtn.addEventListener('click', enableStartSelection);
     playModeBtn.addEventListener('click', enterPlayerMode);
     resetBtn.addEventListener('click', resetBoard);
+    showHintsCheck.addEventListener('change', () => {
+        if (playerMode) {
+            updateBoard(true);
+        }
+    });
 
     function handleSetSize() {
         const newRows = parseInt(rowsInput.value);
@@ -334,8 +340,8 @@ document.addEventListener('DOMContentLoaded', () => {
             knightSymbol.textContent = '♞';
             currentCell.appendChild(knightSymbol);
             
-            // If in player mode, highlight available moves
-            if (playerMode) {
+            // If in player mode and hints are enabled, highlight available moves
+            if (playerMode && showHintsCheck.checked) {
                 const availableMoves = knight.board.getAvailableMoves();
                 for (const [moveX, moveY] of availableMoves) {
                     cells[moveX][moveY].style.backgroundColor = HIGHLIGHT;
